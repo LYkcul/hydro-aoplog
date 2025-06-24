@@ -25,7 +25,7 @@ export async function aoplog(ctx, next) {
         const endTime = Date.now();
         const timeCost = endTime - startTime;
 
-        const { url, method } = ctx.request;
+        const { path: url, method } = ctx.request;
 
         const ua = ctx.request.header['user-agent'];
         let os = 'unknown';
