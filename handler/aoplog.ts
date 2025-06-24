@@ -1,9 +1,13 @@
-import { Context, Handler, param, query, Types } from "hydrooj";
+import { Context, Handler, PRIV, query, Types } from "hydrooj";
 import { collAccess, collError, collLogin } from "../aoplog";
 
 abstract class AopLogBaseHandler extends Handler {
     abstract getColl(): typeof collAccess;
     abstract getPageName(): string;
+
+    async _prepare() {
+        this.checkPriv(PRIV.PRIV_EDIT_SYSTEM);
+    }
 
     @query('page', Types.PositiveInt, true)
     async get(domainId, page = 1) {
