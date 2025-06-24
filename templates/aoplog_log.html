@@ -1,0 +1,117 @@
+{% import "components/user.html" as user %}
+{% extends "manage_base.html" %}
+{% block manage_content %}
+<style>
+  .col--operation {
+    min-width: 5rem;
+  }
+
+  .col--domainid {
+    min-width: 5rem;
+  }
+
+  .col--uname {
+    min-width: 5rem;
+  }
+
+  .col--createdat {
+    min-width: 10rem;
+  }
+
+  .col--url {
+    min-width: 15rem;
+  }
+
+  .col--method {
+    min-width: 5rem;
+  }
+
+  .col--os {
+    min-width: 5rem;
+  }
+
+  .col--browser {
+    min-width: 5rem;
+  }
+
+  .col--timecost {
+    min-width: 5rem;
+  }
+
+  .col--statuscode {
+    min-width: 5rem;
+  }
+
+  .col--success {
+    min-width: 5rem;
+  }
+</style>
+<div class="section">
+  <div class="section__header">
+    <h1 class="section__title" data-heading>{{ _(page_name) }}</h1>
+  </div>
+  <div class="section__body">
+    <div style="width: 100%; overflow-x: auto;">
+      <table class="data-table">
+        <colgroup>
+          <col class="col--operation">
+          <col class="col--domainid">
+          <col class="col--uname">
+          <col class="col--createdat">
+          <col class="col--url">
+          <col class="col--method">
+          <col class="col--os">
+          <col class="col--browser">
+          <col class="col--timecost">
+          <col class="col--statuscode">
+          <col class="col--success">
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="col--operation">{{ _('Operation') }}</th>
+            <th class="col--domainid">{{ _('Domain ID') }}</th>
+            <th class="col--uname">{{ _('Username') }}</th>
+            <th class="col--createdat">{{ _('Created At') }}</th>
+            <th class="col--url">{{ _('URL') }}</th>
+            <th class="col--url">{{ _('Method') }}</th>
+            <th class="col--params">{{ _('OS') }}</th>
+            <th class="col--params">{{ _('Browser') }}</th>
+            <th class="col--timecost">{{ _('Time Cost') }}</th>
+            <th class="col--statuscode">{{ _('Status Code') }}</th>
+            <th class="col--success">{{ _('Success') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for ldoc in ldocs -%}
+          <tr>
+            <td class="col--operation">
+              {{ set(UiContext, 'log-' + ldoc._id, ldoc) }}
+              <a data-id="{{ ldoc._id}}" name="log_detail">
+                {{ _('View') }}
+              </a>
+            </td>
+            <td class="col--domainid" data-tooltip="{{ ldoc.domainId }}">{{ ldoc.domainId }}</td>
+            <td class="col--uname" data-tooltip="{{ ldoc.username }}">{{ ldoc.username }}</td>
+            <td class="col--createdat">{{ datetimeSpan(ldoc['createdAt'], false, 'YYYY-MM-DD HH:mm:ss')|safe }}</td>
+            <td class="col--url" data-tooltip="{{ ldoc.url }}">{{ ldoc.url }}</td>
+            <td class="col--method" data-tooltip="{{ ldoc.method }}">{{ ldoc.method }}</td>
+            <td class="col--os" data-tooltip="{{ ldoc.os }}">{{ ldoc.os }}</td>
+            <td class="col--browser" data-tooltip="{{ ldoc.browser }}">{{ ldoc.browser }}</td>
+            <td class="col--timecost">{{ ldoc.timeCost }} ms</td>
+            <td class="col--statuscode" data-tooltip="{{ ldoc.statusCode }}">{{ ldoc.statusCode }}</td>
+            <td class="col--success">
+              {% if ldoc.success %}
+              <span class="badge badge--success">{{ _('Yes') }}</span>
+              {% else %}
+              <span class="badge badge--error">{{ _('No') }}</span>
+              {% endif %}
+            </td>
+          </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+    {{ paginator.render(page, pcount) }}
+  </div>
+</div>
+{% endblock %}

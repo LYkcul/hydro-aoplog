@@ -16,6 +16,7 @@ export interface LogSchema {
     browser: string;
     uid: string;
     username: string;
+    domainId: string;
     timeCost: number;
     success: boolean;
     statusCode: number;

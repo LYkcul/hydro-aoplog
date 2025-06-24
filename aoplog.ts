@@ -2,9 +2,9 @@ import { db } from "hydrooj";
 import { LogSchema } from "./interface";
 import { UAParser } from "ua-parser-js";
 
-const collAccess = db.collection('a.oplog.access')
-const collLogin = db.collection('a.oplog.login')
-const collError = db.collection('a.oplog.error')
+export const collAccess = db.collection('a.oplog.access')
+export const collLogin = db.collection('a.oplog.login')
+export const collError = db.collection('a.oplog.error')
 
 export async function aoplog(ctx, next) {
     const startTime = Date.now();
@@ -20,6 +20,7 @@ export async function aoplog(ctx, next) {
     } catch (e) {
         success = false;
         error = e.message;
+        throw e;
     } finally {
         const endTime = Date.now();
         const timeCost = endTime - startTime;
@@ -46,6 +47,7 @@ export async function aoplog(ctx, next) {
                 browser,
                 uid: ctx.HydroContext.user._id || 0,
                 username: ctx.HydroContext.user.uname || "Guest",
+                domainId: ctx.domainId,
                 timeCost,
                 success,
                 statusCode: ctx.status,

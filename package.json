@@ -5,7 +5,8 @@
   "author": "gtn1024",
   "license": "AGPL-3.0-only",
   "peerDependencies": {
-    "hydrooj": "^4.19.1"
+    "hydrooj": "^4.19.1",
+    "@hydrooj/ui-default": "^4.57.0"
   },
   "dependencies": {
     "ua-parser-js": "^2.0.3"
