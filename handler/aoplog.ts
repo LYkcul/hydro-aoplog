@@ -9,11 +9,42 @@ abstract class AopLogBaseHandler extends Handler {
         this.checkPriv(PRIV.PRIV_EDIT_SYSTEM);
     }
 
+    @query('domId', Types.String, true)
+    @query('path', Types.String, true)
+    @query('username', Types.String, true)
+    @query('method', Types.String, true)
+    @query('success', Types.Boolean, true)
     @query('page', Types.PositiveInt, true)
-    async get(domainId, page = 1) {
+    async get(domainId, domId?: string, path?: string, username?: string, method?: string, success?: boolean, page = 1) {
         const coll = this.getColl();
+        const query = {}
+        if (domId) {
+            query['domainId'] = { $regex: domId, $options: 'i' };
+        }
+        if (path) {
+            query['path'] = { $regex: path, $options: 'i' };
+        }
+        if (username) {
+            query['username'] = { $regex: username, $options: 'i' };
+        }
+        if (method) {
+            query['method'] = { $regex: method, $options: 'i' };
+        }
+        if (success !== undefined) {
+            query['success'] = success;
+        }
+
+        // build query string
+        const qsArray: string[] = []
+        if (domId) qsArray.push(`domId=${encodeURIComponent(domId)}`);
+        if (path) qsArray.push(`path=${encodeURIComponent(path)}`);
+        if (username) qsArray.push(`username=${encodeURIComponent(username)}`);
+        if (method) qsArray.push(`method=${encodeURIComponent(method)}`);
+        if (success !== undefined) qsArray.push(`success=${success}`);
+        const qs = qsArray.join('&')
+
         const [ldocs, pcount, count] = await this.paginate(
-            coll.find().sort({ _id: -1 }),
+            coll.find(query).sort({ _id: -1 }),
             page,
             'aoplog'
         );
@@ -24,6 +55,12 @@ abstract class AopLogBaseHandler extends Handler {
             pcount,
             count,
             ldocs,
+            qs,
+            domId,
+            path,
+            username,
+            method,
+            success,
         }
     }
 }

@@ -56,8 +56,8 @@
       {{ form.form_text({
           columns:3,
           label:_('Domain ID'),
-          name:'domainId',
-          value:domainId,
+          name:'domId',
+          value:domId,
           row:false
         }) }}
       {{ form.form_text({
@@ -94,6 +94,12 @@
           row:false
         }) }}
       </div>
+      <button type="submit" class="button primary">
+        {{ _('Filter') }}
+      </button>
+      <button type="reset" class="button secondary" name="reset">
+        {{ _('Reset') }}
+      </button>
     </form>
     <div style="width: 100%; overflow-x: auto;">
       <table class="data-table">
@@ -156,7 +162,7 @@
         </tbody>
       </table>
     </div>
-    {{ paginator.render(page, pcount) }}
+    {{ paginator.render(page, pcount, add_qs=qs) }}
   </div>
 </div>
 {% endblock %}
