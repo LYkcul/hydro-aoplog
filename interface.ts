@@ -7,7 +7,7 @@ declare module 'hydrooj' {
 }
 
 export interface LogSchema {
-    url: string;
+    path: string;
     method: string;
     params?: any;
     host: string;

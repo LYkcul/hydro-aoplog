@@ -25,7 +25,7 @@ export async function aoplog(ctx, next) {
         const endTime = Date.now();
         const timeCost = endTime - startTime;
 
-        const { path: url, method } = ctx.request;
+        const { path, method } = ctx.request;
 
         const ua = ctx.request.header['user-agent'];
         let os = 'unknown';
@@ -38,7 +38,7 @@ export async function aoplog(ctx, next) {
 
         try {
             const logData: LogSchema = {
-                url,
+                path,
                 method: ctx.request.method,
                 params: Object.keys(ctx.request.query) ? ctx.request.query : undefined,
                 host: ctx.request.host,
@@ -58,7 +58,7 @@ export async function aoplog(ctx, next) {
                 await collError.insertOne(logData);
                 return;
             }
-            if (url === '/login' && method === 'POST') {
+            if (path === '/login' && method === 'POST') {
                 await collLogin.insertOne(logData);
                 return;
             }

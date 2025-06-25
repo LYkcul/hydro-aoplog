@@ -18,7 +18,7 @@
     min-width: 10rem;
   }
 
-  .col--url {
+  .col--path {
     min-width: 15rem;
   }
 
@@ -51,6 +51,50 @@
     <h1 class="section__title" data-heading>{{ _(page_name) }}</h1>
   </div>
   <div class="section__body">
+    <form method="get" name="filter-form">
+      <div class="row">
+      {{ form.form_text({
+          columns:3,
+          label:_('Domain ID'),
+          name:'domainId',
+          value:domainId,
+          row:false
+        }) }}
+      {{ form.form_text({
+          columns:3,
+          label:_('Path'),
+          name:'path',
+          value:path,
+          row:false
+        }) }}
+        {{ form.form_text({
+          columns:3,
+          label:_('Username'),
+          name:'username',
+          value:username,
+          row:false
+        }) }}
+        {{ form.form_text({
+          columns:3,
+          label:_('Method'),
+          name:'method',
+          value:method,
+          row:false
+        }) }}
+        {{ form.form_select({
+          columns:3,
+          label:_('Success'),
+          name:'success',
+          value:success,
+          options:{
+            '':_('All'),
+            'true':_('Yes'),
+            'false':_('No')
+          },
+          row:false
+        }) }}
+      </div>
+    </form>
     <div style="width: 100%; overflow-x: auto;">
       <table class="data-table">
         <colgroup>
@@ -58,7 +102,7 @@
           <col class="col--domainid">
           <col class="col--uname">
           <col class="col--createdat">
-          <col class="col--url">
+          <col class="col--path">
           <col class="col--method">
           <col class="col--os">
           <col class="col--browser">
@@ -72,10 +116,10 @@
             <th class="col--domainid">{{ _('Domain ID') }}</th>
             <th class="col--uname">{{ _('Username') }}</th>
             <th class="col--createdat">{{ _('Created At') }}</th>
-            <th class="col--url">{{ _('URL') }}</th>
-            <th class="col--url">{{ _('Method') }}</th>
-            <th class="col--params">{{ _('OS') }}</th>
-            <th class="col--params">{{ _('Browser') }}</th>
+            <th class="col--path">{{ _('Path') }}</th>
+            <th class="col--method">{{ _('Method') }}</th>
+            <th class="col--os">{{ _('OS') }}</th>
+            <th class="col--browser">{{ _('Browser') }}</th>
             <th class="col--timecost">{{ _('Time Cost') }}</th>
             <th class="col--statuscode">{{ _('Status Code') }}</th>
             <th class="col--success">{{ _('Success') }}</th>
@@ -93,7 +137,8 @@
             <td class="col--domainid" data-tooltip="{{ ldoc.domainId }}">{{ ldoc.domainId }}</td>
             <td class="col--uname" data-tooltip="{{ ldoc.username }}">{{ ldoc.username }}</td>
             <td class="col--createdat">{{ datetimeSpan(ldoc['createdAt'], false, 'YYYY-MM-DD HH:mm:ss')|safe }}</td>
-            <td class="col--url" data-tooltip="{{ ldoc.url }}">{{ ldoc.url }}</td>
+            {# for compatibility #}
+            <td class="col--path" data-tooltip="{{ ldoc.path or ldoc.url }}">{{ ldoc.path or ldoc.url }}</td>
             <td class="col--method" data-tooltip="{{ ldoc.method }}">{{ ldoc.method }}</td>
             <td class="col--os" data-tooltip="{{ ldoc.os }}">{{ ldoc.os }}</td>
             <td class="col--browser" data-tooltip="{{ ldoc.browser }}">{{ ldoc.browser }}</td>

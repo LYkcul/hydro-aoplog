@@ -13,6 +13,9 @@ addPage(new NamedPage(['aoplog_access', 'aoplog_login', 'aoplog_error'], async (
             if (typeof c === 'object') {
                 return ` <tr> <td>${key}</td> <td>${JSON.stringify(c)}</td> </tr>`;
             }
+            if (key === 'createdAt') {
+                return ` <tr> <td>${key}</td> <td>${new Date(c).toLocaleString()}</td> </tr>`;
+            }
             return ` <tr> <td>${key}</td> <td>${c}</td> </tr>`;
         })
 
