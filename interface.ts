@@ -20,6 +20,7 @@ export interface LogSchema {
     timeCost: number;
     success: boolean;
     statusCode: number;
+    errorName?: string;
     error?: string;
     createdAt: Date;
 }
