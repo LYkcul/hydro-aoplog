@@ -13,9 +13,10 @@ abstract class AopLogBaseHandler extends Handler {
     @query('path', Types.String, true)
     @query('username', Types.String, true)
     @query('method', Types.String, true)
+    @query('hostname', Types.String, true)
     @query('success', Types.Boolean, true)
     @query('page', Types.PositiveInt, true)
-    async get(domainId, domId?: string, path?: string, username?: string, method?: string, success?: boolean, page = 1) {
+    async get(domainId, domId?: string, path?: string, username?: string, method?: string, hostname?: string, success?: boolean, page = 1) {
         const coll = this.getColl();
         const query = {}
         if (domId) {
@@ -30,6 +31,9 @@ abstract class AopLogBaseHandler extends Handler {
         if (method) {
             query['method'] = { $regex: method, $options: 'i' };
         }
+        if (hostname) {
+            query['host'] = { $regex: hostname, $options: 'i' };
+        }
         if (success !== undefined) {
             query['success'] = success;
         }
@@ -40,6 +44,7 @@ abstract class AopLogBaseHandler extends Handler {
         if (path) qsArray.push(`path=${encodeURIComponent(path)}`);
         if (username) qsArray.push(`username=${encodeURIComponent(username)}`);
         if (method) qsArray.push(`method=${encodeURIComponent(method)}`);
+        if (hostname) qsArray.push(`hostname=${encodeURIComponent(hostname)}`);
         if (success !== undefined) qsArray.push(`success=${success}`);
         const qs = qsArray.join('&')
 
@@ -61,6 +66,7 @@ abstract class AopLogBaseHandler extends Handler {
             username,
             method,
             success,
+            hostname,
         }
     }
 }

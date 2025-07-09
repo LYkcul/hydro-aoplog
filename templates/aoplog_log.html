@@ -26,6 +26,10 @@
     width: 80px;
   }
 
+  .col--host {
+    width: 120px;
+  }
+
   .col--os {
     width: 120px;
   }
@@ -81,6 +85,13 @@
           value:method,
           row:false
         }) }}
+        {{ form.form_text({
+            columns:3,
+            label:_('Hostname'),
+            name:'hostname',
+            value:hostname,
+            row:false
+          }) }}
         {{ form.form_select({
           columns:3,
           label:_('Success'),
@@ -97,9 +108,9 @@
       <button type="submit" class="button primary">
         {{ _('Filter') }}
       </button>
-      <button type="reset" class="button secondary" name="reset">
+      <a href="{{ url(page_name) }}" class="button secondary" name="reset">
         {{ _('Reset') }}
-      </button>
+      </a>
     </form>
     <div style="width: 100%; overflow-x: auto;">
       <table class="data-table">
@@ -110,6 +121,7 @@
           <col class="col--createdat">
           <col class="col--path">
           <col class="col--method">
+          <col class="col--host">
           <col class="col--os">
           <col class="col--browser">
           <col class="col--timecost">
@@ -124,6 +136,7 @@
             <th class="col--createdat">{{ _('Created At') }}</th>
             <th class="col--path">{{ _('Path') }}</th>
             <th class="col--method">{{ _('Method') }}</th>
+            <th class="col--host">{{ _('Hostname') }}</th>
             <th class="col--os">{{ _('OS') }}</th>
             <th class="col--browser">{{ _('Browser') }}</th>
             <th class="col--timecost">{{ _('Time Cost') }}</th>
@@ -146,6 +159,7 @@
             {# for compatibility #}
             <td class="col--path" data-tooltip="{{ ldoc.path or ldoc.url }}">{{ ldoc.path or ldoc.url }}</td>
             <td class="col--method" data-tooltip="{{ ldoc.method }}">{{ ldoc.method }}</td>
+            <td class="col--host" data-tooltip="{{ ldoc.host }}">{{ ldoc.host }}</td>
             <td class="col--os" data-tooltip="{{ ldoc.os }}">{{ ldoc.os }}</td>
             <td class="col--browser" data-tooltip="{{ ldoc.browser }}">{{ ldoc.browser }}</td>
             <td class="col--timecost">{{ ldoc.timeCost }} ms</td>

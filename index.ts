@@ -45,6 +45,8 @@ export function apply(ctx: Context) {
         }
         try {
             if (path === '/login' && method.toLocaleLowerCase() === 'post') {
+                logData.uid = (h.session.uid || 0).toString();
+                logData.username = h.request.body.uname || "Guest";
                 const inserted = await collLogin.insertOne(logData);
                 h.args.__inserted_login_log_id = inserted.insertedId;
                 return;
