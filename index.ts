@@ -35,6 +35,10 @@ export function apply(ctx: Context) {
             useragent: ua,
             os,
             browser,
+            updateGeoip: ctx.geoip?.lookup?.(
+                host,
+                'zh-CN',
+            ).display,
             uid: (h.user._id || 0).toString(),
             username: h.user.uname || "Guest",
             domainId: h.domain._id,
@@ -88,6 +92,10 @@ export function apply(ctx: Context) {
             useragent: ua,
             os,
             browser,
+            updateGeoip: ctx.geoip?.lookup?.(
+                host,
+                'zh-CN',
+            ).display,
             uid: (h.user._id || 0).toString(),
             username: h.user.uname || "Guest",
             domainId: h.domain._id,

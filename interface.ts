@@ -14,6 +14,7 @@ export interface LogSchema {
     useragent: string;
     os: string;
     browser: string;
+    updateGeoip: string;
     uid: string;
     username: string;
     domainId: string;
